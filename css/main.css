@@ -21,6 +21,7 @@ html {-webkit-font-smoothing: antialiased;}
 
 body {
 	background: #6f8288;
+	background-size: cover;
 	line-height:1;
 	color:#6a6a6a;
 	font-family:"Lucida Sans Unicode", "Lucida Grande", Arial, Helvetica, sans-serif;

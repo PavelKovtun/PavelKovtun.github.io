@@ -4,7 +4,7 @@ var somethingShowed = false;
 var requestNum;
 var imgCount = 5;
 var loaded = [false, false, false, false, false];
-
+var loading = [false, false, false, false, false];
 for (var i = 1; i < 6; i++)
 {
 	document.getElementById('photo' + i).onclick = requestToShow;
@@ -18,10 +18,16 @@ span.onclick = function() {
 }
 
 function checkCookie(){
-var cookie = getCookie("lastImage");
-if (cookie != null){
-	document.getElementById("photo" + cookie).click();
-	}
+	var cookie = getCookie("lastImage");
+	if (cookie != null){
+		document.getElementById("photo" + cookie).click();
+		}
+}
+
+function showBackground(num)
+{
+	var body = document.getElementById("body");
+	body.style.backgroundImage = "url({0})".replace("{0}", document.getElementById("full" + num).src);
 }
 
 addEventListener("keydown", function(event) {
@@ -44,9 +50,8 @@ addEventListener("keydown", function(event) {
 		document.getElementById("photo" + requestNum).click();
 	}
 	if (event.keyCode == 32){
-		var body = document.getElementById("body");
-		body.style.backgroundImage = "url({0})".replace("{0}", document.getElementById("full" + requestNum).src);
-		document.cookie = "background={0}".replace("{0}", document.getElementById("full" + requestNum).src);
+		showBackground(requestNum);
+		document.cookie = "background={0}".replace("{0}", requestNum);
 		}
 	if (event.keyCode == 107)
 	{
@@ -63,6 +68,7 @@ function createFullPhoto(num){
     modalImg.id = "full" + num.toString();
     modalImg.onload = showLoad;
     modal.insertBefore(modalImg, modal.firstChild);
+	loading[num - 1] = true;
 }
 
 function deleteCookie(name) {
@@ -108,9 +114,16 @@ function requestToShow(event){
 function showLoad(event)
 {
 	target = event.target || event.srcElement;
+    loading[target.id[4] - 1] = false;
 	loaded[target.id[4] - 1] = true;
 	modalImg.src = "img/photo" + target.id[4] + ".jpeg";
 	somethingShowed = true;
 	modalImg.style.width = '700px';
 	modalImg.style.height = '700px';
+	var nextImg = (requestNum + 1) % (imgCount + 1);
+    if (loaded[nextImg-1] || loading[nextImg - 1]){
+        return false;
+    }
+    var oImg = document.createElement("img");
+	oImg.src = "img/photo" + nextImg + ".jpeg";
 }
