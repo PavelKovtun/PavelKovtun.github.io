@@ -17,6 +17,26 @@ span.onclick = function() {
 	somethingShowed = false;
 }
 
+function unshow(){
+    var cookie = getCookie("lastImage");
+	if (cookie != null) {
+		document.getElementById("full" + cookie).style.display = "none"
+    }
+    var modal = document.getElementById("modal");
+    modal.style.display = "none";
+}
+
+function popstateHandler(){
+    if (document.location.hash.length != 0){
+        var imgNum = document.location.hash.substring(1);
+        document.getElementById("photo" + imgNum).click();
+    }
+    else {
+        unshow();
+    }
+}
+window.addEventListener("popstate", popstateHandler);
+
 function checkCookie(){
 	var cookie = getCookie("lastImage");
 	if (cookie != null){
@@ -79,6 +99,7 @@ function deleteCookie(name) {
 }
 
 function setCookie(){
+	window.location.hash = "#" + requestNum;
     somethingShowed = true;
     document.cookie = "lastImage=" + requestNum;
 }
