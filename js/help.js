@@ -11,7 +11,13 @@ addEventListener("keydown", function(event) {
 
 window.addEventListener("keydown",function(event) {
 if (event.keyCode === 112) { 
-(event.preventDefault) ? event.preventDefault() : event.returnValue = false;
+var event = document.createEvent('CustomEvent');
+event.initCustomEvent('custom', true, true, {});
+event.preventDefault = function () {
+    Object.defineProperty(this, "defaultPrevented", {get: function () {return true;}});
+};
+event.preventDefault();
+event.defaultPrevented;
 }
 })
  
