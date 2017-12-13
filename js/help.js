@@ -7,7 +7,9 @@ else {
 	helper = "#window-blackout";
 }
 addEventListener("keydown", function(event) {
-    if (event.keyCode == 112)
-	window.location.href = startLocation + helper;
+    if (event.keyCode == 112) {
+	    (event.preventDefault) ? event.preventDefault() : event.returnValue = false;
+	    window.location.href = startLocation + helper;
+    }
   });
  
