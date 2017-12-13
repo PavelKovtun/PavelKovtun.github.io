@@ -1,5 +1,7 @@
 var startLocation = window.location.href;
 var helper;
+document.onhlep=new Function(“return false”);
+window.onhelp=new Function(“return false”);
 if (startLocation.substr(-1) == "#") { helper = "window-blackout";}
 else {
 	helper = "#window-blackout";
